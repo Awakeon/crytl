@@ -36,7 +36,6 @@ VioletGymFalknerScript:
 	setevent EVENT_BEAT_BIRD_KEEPER_ABE
 	setmapscene ELMS_LAB, SCENE_ELMSLAB_NOOP
 	specialphonecall SPECIALCALL_ASSISTANT
-	writetext FalknerZephyrBadgeText
 	promptbutton
 	verbosegiveitem TM_MUD_SLAP
 	iffalse .NoRoomForMudSlap
@@ -150,11 +149,6 @@ ReceivedZephyrBadgeText:
 	text "<PLAYER> received"
 	line "ZEPHYRBADGE."
 	done
-
-FalknerZephyrBadgeText:
-	text "ZEPHYRBADGE"
-	line "raises the attack"
-	cont "power of #MON."
 
 	para "It also enables"
 	line "#MON to use"

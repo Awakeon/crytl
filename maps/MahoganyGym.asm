@@ -40,7 +40,6 @@ MahoganyGymPryceScript:
 	setevent EVENT_BEAT_BOARDER_RONALD
 	setevent EVENT_BEAT_BOARDER_BRAD
 	setevent EVENT_BEAT_BOARDER_DOUGLAS
-	writetext PryceText_GlacierBadgeSpeech
 	promptbutton
 	verbosegiveitem TM_ICY_WIND
 	iffalse MahoganyGym_NoRoomForIcyWind
@@ -196,11 +195,6 @@ Text_ReceivedGlacierBadge:
 	text "<PLAYER> received"
 	line "GLACIERBADGE."
 	done
-
-PryceText_GlacierBadgeSpeech:
-	text "That BADGE will"
-	line "raise the SPECIAL"
-	cont "stats of #MON."
 
 	para "It also lets your"
 	line "#MON use WHIRL-"

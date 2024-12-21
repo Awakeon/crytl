@@ -612,19 +612,7 @@ ClearObjectStructs::
 	ld hl, wObject1Struct
 	ld bc, OBJECT_LENGTH * (NUM_OBJECT_STRUCTS - 1)
 	xor a
-	call ByteFill
-
-; Just to make sure (this is rather pointless)
-	ld hl, wObject1Struct
-	ld de, OBJECT_LENGTH
-	ld c, NUM_OBJECT_STRUCTS - 1
-	xor a
-.loop
-	ld [hl], a
-	add hl, de
-	dec c
-	jr nz, .loop
-	ret
+	jp ByteFill
 
 GetWarpDestCoords::
 	call GetMapScriptsBank
@@ -1076,15 +1064,9 @@ ObjectEventText::
 	text_far _ObjectEventText
 	text_end
 
-BGEvent:: ; unreferenced
-	jumptext BGEventText
-
 BGEventText::
 	text_far _BGEventText
 	text_end
-
-CoordinatesEvent:: ; unreferenced
-	jumptext CoordinatesEventText
 
 CoordinatesEventText::
 	text_far _CoordinatesEventText
@@ -2020,11 +2002,6 @@ SwitchToAnyMapAttributesBank::
 	rst Bankswitch
 	ret
 
-GetMapAttributesBank:: ; unreferenced
-	ld a, [wMapGroup]
-	ld b, a
-	ld a, [wMapNumber]
-	ld c, a
 GetAnyMapAttributesBank::
 	push hl
 	push de
@@ -2155,8 +2132,8 @@ GetMapMusic::
 	ld a, c
 	cp MUSIC_MAHOGANY_MART
 	jr z, .mahoganymart
-	bit RADIO_TOWER_MUSIC_F, c
-	jr nz, .radiotower
+	cp MUSIC_RADIO_TOWER
+	jr z, .radiotower
 	farcall Function8b342
 	ld e, c
 	ld d, 0
@@ -2173,11 +2150,7 @@ GetMapMusic::
 	jr .done
 
 .clearedradiotower
-	; the rest of the byte
-	ld a, c
-	and RADIO_TOWER_MUSIC - 1
-	ld e, a
-	ld d, 0
+	ld de, MUSIC_GOLDENROD_CITY
 	jr .done
 
 .mahoganymart

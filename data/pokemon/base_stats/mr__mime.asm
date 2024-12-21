@@ -1,9 +1,9 @@
-	db MR__MIME ; 122
+	db 0 ; species ID placeholder
 
 	db  40,  45,  65,  90, 100, 120
 	;   hp  atk  def  spd  sat  sdf
 
-	db PSYCHIC_TYPE, PSYCHIC_TYPE ; type
+	db PSYCHIC_TYPE, FAIRY ; type
 	db 45 ; catch rate
 	db 136 ; base exp
 	db NO_ITEM, MYSTERYBERRY ; items

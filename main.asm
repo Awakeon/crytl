@@ -34,7 +34,6 @@ INCLUDE "engine/items/items.asm"
 INCLUDE "engine/overworld/player_step.asm"
 INCLUDE "engine/battle/anim_hp_bar.asm"
 INCLUDE "engine/pokemon/move_mon.asm"
-INCLUDE "engine/pokemon/bills_pc_top.asm"
 INCLUDE "engine/pokemon/breedmon_level_growth.asm"
 INCLUDE "engine/events/bug_contest/caught_mon.asm"
 INCLUDE "engine/items/item_effects.asm"
@@ -123,9 +122,7 @@ INCLUDE "engine/events/kurt_selectquantity_interpretjoypad.asm"
 
 SECTION "bankA", ROMX
 
-INCLUDE "engine/link/link.asm"
 INCLUDE "engine/overworld/wildmons.asm"
-INCLUDE "engine/battle/link_result.asm"
 
 
 SECTION "bankB", ROMX
@@ -162,8 +159,6 @@ INCLUDE "data/battle/effect_command_pointers.asm"
 
 
 SECTION "bank10", ROMX
-
-INCLUDE "engine/pokedex/pokedex.asm"
 INCLUDE "data/moves/moves.asm"
 INCLUDE "engine/pokemon/evolve.asm"
 
@@ -172,7 +167,6 @@ SECTION "bank11", ROMX
 
 INCLUDE "engine/events/fruit_trees.asm"
 INCLUDE "engine/battle/ai/move.asm"
-INCLUDE "engine/pokedex/pokedex_2.asm"
 INCLUDE "engine/pokemon/mail.asm"
 
 
@@ -238,12 +232,12 @@ INCLUDE "engine/events/basement_key.asm"
 INCLUDE "engine/events/sacred_ash.asm"
 INCLUDE "engine/pokemon/tempmon.asm"
 INCLUDE "engine/pokemon/types.asm"
+INCLUDE "engine/pokemon/categories.asm"
 INCLUDE "engine/pokemon/mon_stats.asm"
 INCLUDE "engine/link/init_list.asm"
 INCLUDE "engine/pokemon/experience.asm"
 INCLUDE "engine/pokemon/switchpartymons.asm"
 INCLUDE "engine/gfx/load_pics.asm"
-INCLUDE "engine/pokemon/move_mon_wo_mail.asm"
 INCLUDE "data/pokemon/base_stats.asm"
 INCLUDE "data/pokemon/names.asm"
 
@@ -312,7 +306,7 @@ INCLUDE "engine/rtc/timeset.asm"
 INCLUDE "engine/pokegear/pokegear.asm"
 INCLUDE "engine/events/fish.asm"
 INCLUDE "engine/games/slot_machine.asm"
-
+INCLUDE "data/pokemon/first_stages.asm"
 
 SECTION "Phone Scripts 1", ROMX
 
@@ -452,7 +446,6 @@ INCLUDE "engine/events/print_unown_2.asm"
 INCLUDE "engine/games/card_flip.asm"
 INCLUDE "engine/games/unown_puzzle.asm"
 INCLUDE "engine/games/memory_game.asm"
-INCLUDE "engine/pokemon/bills_pc.asm"
 
 
 SECTION "bank39", ROMX
@@ -465,13 +458,10 @@ INCLUDE "engine/movie/intro.asm"
 SECTION "bank3E", ROMX
 
 INCLUDE "engine/gfx/load_font.asm"
-INCLUDE "engine/link/time_capsule.asm"
 INCLUDE "engine/events/name_rater.asm"
 INCLUDE "engine/events/play_slow_cry.asm"
 INCLUDE "engine/pokedex/new_pokedex_entry.asm"
-INCLUDE "engine/link/time_capsule_2.asm"
 INCLUDE "engine/pokedex/unown_dex.asm"
-INCLUDE "engine/events/magikarp.asm"
 INCLUDE "engine/battle/hidden_power.asm"
 INCLUDE "engine/battle/misc.asm"
 
@@ -530,6 +520,8 @@ SECTION "bank5B", ROMX
 
 INCLUDE "mobile/mobile_5b.asm"
 INCLUDE "engine/link/link_trade.asm"
+INCLUDE "engine/link/link.asm"
+INCLUDE "engine/battle/link_result.asm"
 
 
 SECTION "mobile5C", ROMX
@@ -679,6 +671,55 @@ INCLUDE "engine/events/battle_tower/load_trainer.asm"
 INCLUDE "engine/events/odd_egg.asm"
 
 
+SECTION "Newbox", ROMX
+
+INCLUDE "engine/pc/bills_pc.asm"
+INCLUDE "engine/pc/bills_pc_ui.asm"
+
+
+SECTION "Prism tilemap copy functions", ROMX
+
+INCLUDE "engine/gfx/copy_tilemap_at_once.asm"
+
+
+SECTION "VWF", ROMX
+
+INCLUDE "engine/gfx/vwf.asm"
+
+; Nayru's Pokedex GFX
+SECTION "DEX GFX 2", ROMX
+PokedexLZ:
+INCBIN "gfx/pokedex/pokedex.2bpp.lz"
+PokedexSlowpokeLZ:
+INCBIN "gfx/pokedex/slowpoke.2bpp.lz"
+Pokedex_ExtraTiles:
+INCBIN "gfx/pokedex/rangi_dex_tiles.2bpp"
+Pokedex_PageNumTiles:
+INCBIN "gfx/pokedex/dex_pagenums.2bpp"
+Pokedex_MathTiles:
+INCBIN "gfx/pokedex/math_symbols_inverted.1bpp"
+Pokedex_Imperial_Tiles:
+INCBIN "gfx/pokedex/inversed_feet_inches.1bpp"
+Pokedex_RightArrow_Tile:
+INCBIN "gfx/pokedex/inversed_rightarrow.1bpp"
+
+SECTION "Nayru Pokedex", ROMX
+INCLUDE "engine/pokedex/pokedex.asm"
+
+SECTION "Nayru Pokedex 2", ROMX
+INCLUDE "engine/pokedex/pokedex_2.asm"
+
+SECTION "Map GroupNums Names", ROMX
+INCLUDE "data/maps/map_names.asm"
+
+SECTION "Bank3E Overflow", ROMX
+INCLUDE "engine/link/time_capsule.asm"
+INCLUDE "engine/link/time_capsule_2.asm"
+INCLUDE "engine/events/magikarp.asm"
+
+SECTION "Custom GFX", ROMX
+INCLUDE "gfx/rangi_gfx.asm"
+
 SECTION "Stadium 2 Checksums", ROMX[$7DE0], BANK[$7F]
 
 ; The end of the ROM is taken up by checksums of the content, apparently used
@@ -686,6 +727,10 @@ SECTION "Stadium 2 Checksums", ROMX[$7DE0], BANK[$7F]
 ; Pokémon Stadium Gold and Silver was the third Stadium release for N64.)
 ; This SECTION reserves space for those checksums.
 ; If it is removed, also remove the "tools/stadium" command in the Makefile.
+
+SECTION "16-bit ID stuff", ROMX
+
+INCLUDE "engine/16/table_functions.asm"
 
 ; own section
 INCLUDE "data/trainers/parties.asm"

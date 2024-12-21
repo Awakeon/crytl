@@ -1,5 +1,31 @@
-BattleAnimations::
 ; entries correspond to constants/move_constants.asm
+:
+	table_width 2, :-
+; negative entries first (see the constants file for details)
+	dw BattleAnim_ThrowPokeBall
+	dw BattleAnim_SendOutMon
+	dw BattleAnim_ReturnMon
+	dw BattleAnim_Confused
+	dw BattleAnim_Slp
+	dw BattleAnim_Brn
+	dw BattleAnim_Psn
+	dw BattleAnim_Sap
+	dw BattleAnim_Frz
+	dw BattleAnim_Par
+	dw BattleAnim_InLove
+	dw BattleAnim_InSandstorm
+	dw BattleAnim_InNightmare
+	dw BattleAnim_InWhirlpool
+	dw BattleAnim_Miss
+	dw BattleAnim_EnemyDamage
+	dw BattleAnim_EnemyStatDown
+	dw BattleAnim_PlayerStatDown
+	dw BattleAnim_PlayerDamage
+	dw BattleAnim_Wobble
+	dw BattleAnim_Shake
+	dw BattleAnim_HitConfusion
+	assert_table_length NUM_BATTLE_ANIMS
+BattleAnimations::
 	table_width 2, BattleAnimations
 	dw BattleAnim_Dummy
 	dw BattleAnim_Pound
@@ -253,36 +279,10 @@ BattleAnimations::
 	dw BattleAnim_RockSmash
 	dw BattleAnim_Whirlpool
 	dw BattleAnim_BeatUp
+	dw BattleAnim_AirSlash
+	dw BattleAnim_Moonblade
 	assert_table_length NUM_ATTACKS + 1
-	dw BattleAnim_Dummy
-	dw BattleAnim_Dummy
-	dw BattleAnim_Dummy
 	dw BattleAnim_SweetScent2
-	assert_table_length $100
-; $100
-	dw BattleAnim_ThrowPokeBall
-	dw BattleAnim_SendOutMon
-	dw BattleAnim_ReturnMon
-	dw BattleAnim_Confused
-	dw BattleAnim_Slp
-	dw BattleAnim_Brn
-	dw BattleAnim_Psn
-	dw BattleAnim_Sap
-	dw BattleAnim_Frz
-	dw BattleAnim_Par
-	dw BattleAnim_InLove
-	dw BattleAnim_InSandstorm
-	dw BattleAnim_InNightmare
-	dw BattleAnim_InWhirlpool
-	dw BattleAnim_Miss
-	dw BattleAnim_EnemyDamage
-	dw BattleAnim_EnemyStatDown
-	dw BattleAnim_PlayerStatDown
-	dw BattleAnim_PlayerDamage
-	dw BattleAnim_Wobble
-	dw BattleAnim_Shake
-	dw BattleAnim_HitConfusion
-	assert_table_length NUM_BATTLE_ANIMS + 1
 
 BattleAnim_Dummy:
 BattleAnim_MirrorMove:
@@ -1542,6 +1542,7 @@ BattleAnim_Cut:
 	anim_wait 32
 	anim_ret
 
+BattleAnim_AirSlash:
 BattleAnim_Slash:
 	anim_1gfx BATTLE_ANIM_GFX_CUT
 	anim_sound 0, 1, SFX_CUT
@@ -4823,4 +4824,11 @@ BattleAnim_ShowMon_1:
 	anim_wait 4
 	anim_incobj 1
 	anim_wait 1
+	anim_ret
+
+BattleAnim_Moonblade:
+	anim_1gfx BATTLE_ANIM_GFX_CUT
+	anim_sound 0, 1, SFX_CUT
+	anim_obj BATTLE_ANIM_OBJ_CUT_LONG_DOWN_LEFT, 152, 40, $0
+	anim_wait 32
 	anim_ret

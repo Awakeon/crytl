@@ -1,9 +1,9 @@
-	db LEDIAN ; 166
+	db 0 ; species ID placeholder
 
-	db  55,  35,  50,  85,  55, 110
+	db  70,  90,  70,  85,  100, 110
 	;   hp  atk  def  spd  sat  sdf
 
-	db BUG, FLYING ; type
+	db BUG, FAIRY ; type
 	db 90 ; catch rate
 	db 134 ; base exp
 	db NO_ITEM, NO_ITEM ; items

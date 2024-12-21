@@ -5,6 +5,10 @@ DEF GOLDENRODGAMECORNER_ABRA_COINS      EQU 100
 DEF GOLDENRODGAMECORNER_CUBONE_COINS    EQU 800
 DEF GOLDENRODGAMECORNER_WOBBUFFET_COINS EQU 1500
 
+EXPORT GOLDENRODGAMECORNER_ABRA_COINS
+EXPORT GOLDENRODGAMECORNER_CUBONE_COINS
+EXPORT GOLDENRODGAMECORNER_WOBBUFFET_COINS
+
 	object_const_def
 	const GOLDENRODGAMECORNER_CLERK
 	const GOLDENRODGAMECORNER_RECEPTIONIST1
@@ -187,7 +191,7 @@ GoldenrodGameCornerPrizeMonVendorScript:
 	playsound SFX_TRANSACTION
 	writetext GoldenrodGameCornerPrizeVendorHereYouGoText
 	waitbutton
-	setval ABRA
+	loadmonindex 1, ABRA
 	special GameCornerPrizeMonCheckDex
 	givepoke ABRA, 5
 	takecoins GOLDENRODGAMECORNER_ABRA_COINS
@@ -205,7 +209,7 @@ GoldenrodGameCornerPrizeMonVendorScript:
 	playsound SFX_TRANSACTION
 	writetext GoldenrodGameCornerPrizeVendorHereYouGoText
 	waitbutton
-	setval CUBONE
+	loadmonindex 2, CUBONE
 	special GameCornerPrizeMonCheckDex
 	givepoke CUBONE, 15
 	takecoins GOLDENRODGAMECORNER_CUBONE_COINS
@@ -223,7 +227,7 @@ GoldenrodGameCornerPrizeMonVendorScript:
 	playsound SFX_TRANSACTION
 	writetext GoldenrodGameCornerPrizeVendorHereYouGoText
 	waitbutton
-	setval WOBBUFFET
+	loadmonindex 3, WOBBUFFET
 	special GameCornerPrizeMonCheckDex
 	givepoke WOBBUFFET, 15
 	takecoins GOLDENRODGAMECORNER_WOBBUFFET_COINS

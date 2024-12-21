@@ -1,9 +1,9 @@
-	db SNUBBULL ; 209
+	db 0 ; species ID placeholder
 
 	db  60,  80,  50,  30,  40,  40
 	;   hp  atk  def  spd  sat  sdf
 
-	db NORMAL, NORMAL ; type
+	db FAIRY, FAIRY ; type
 	db 190 ; catch rate
 	db 63 ; base exp
 	db NO_ITEM, NO_ITEM ; items

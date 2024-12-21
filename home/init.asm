@@ -89,6 +89,8 @@ Init::
 	ldh [hSystemBooted], a
 	pop af
 	ldh [hCGB], a
+	ld a, -1
+	ldh [hSRAMBank], a
 
 	call ClearWRAM
 	ld a, 1
@@ -96,6 +98,14 @@ Init::
 	call ClearVRAM
 	call ClearSprites
 	call ClearsScratch
+
+	; Set up LCD interrupt handler
+	ld a, $c3 ; jp instruction
+	ldh [hFunctionJump], a
+	ld a, LOW(LCDGeneric)
+	ldh [hFunctionTargetLo], a
+	ld a, HIGH(LCDGeneric)
+	ldh [hFunctionTargetHi], a
 
 	ld a, BANK(WriteOAMDMACodeToHRAM) ; aka BANK(GameInit)
 	rst Bankswitch
@@ -180,8 +190,7 @@ ClearVRAM::
 	ld hl, STARTOF(VRAM)
 	ld bc, SIZEOF(VRAM)
 	xor a
-	call ByteFill
-	ret
+	jp ByteFill
 
 ClearWRAM::
 ; Wipe swappable WRAM banks (1-7)

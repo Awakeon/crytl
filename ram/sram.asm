@@ -60,6 +60,10 @@ sRTCStatusFlags:: db
 sLuckyNumberDay:: db
 sLuckyIDNumber::  dw
 
+SECTION "Saved 16-bit conversion tables", SRAM
+; the Pokémon index table isn't stored here to improve save data packing
+sMoveIndexTable:: ds wMoveIndexTableEnd - wMoveIndexTable
+sBackupMoveIndexTable:: ds wMoveIndexTableEnd - wMoveIndexTable
 
 SECTION "Backup Save", SRAM
 
@@ -67,13 +71,21 @@ sBackupOptions:: ds wOptionsEnd - wOptions
 
 sBackupCheckValue1:: db ; loaded with SAVE_CHECK_VALUE_1, used to check save corruption
 
+sBackupSaveData::
+
 sBackupGameData::
 sBackupPlayerData::  ds wPlayerDataEnd - wPlayerData
 sBackupCurMapData::  ds wCurMapDataEnd - wCurMapData
 sBackupPokemonData:: ds wPokemonDataEnd - wPokemonData
 sBackupGameDataEnd::
 
-	ds $18a
+sBackupPokemonIndexTable:: ds wPokemonIndexTableEnd - wPokemonIndexTable
+
+sBackupConversionTableChecksum:: dw
+
+sBackupSaveDataEnd::
+
+	ds $88
 
 sBackupChecksum:: dw
 
@@ -96,24 +108,42 @@ sOptions:: ds wOptionsEnd - wOptions
 
 sCheckValue1:: db ; loaded with SAVE_CHECK_VALUE_1, used to check save corruption
 
+sSaveData::
+
 sGameData::
 sPlayerData::  ds wPlayerDataEnd - wPlayerData
 sCurMapData::  ds wCurMapDataEnd - wCurMapData
 sPokemonData:: ds wPokemonDataEnd - wPokemonData
 sGameDataEnd::
 
-	ds $18a
+sPokemonIndexTable:: ds wPokemonIndexTableEnd - wPokemonIndexTable
+
+sConversionTableChecksum:: dw
+
+sSaveDataEnd::
+
+	ds $88
 
 sChecksum:: dw
 
 sCheckValue2:: db ; loaded with SAVE_CHECK_VALUE_2, used to check save corruption
 
 
-SECTION "Active Box", SRAM
+SECTION "Box Metadata", SRAM
 
-sBox:: box sBox
+for n, 1, NUM_BOXES + 1
+sNewBox{d:n}:: newbox sNewBox{d:n}
+endr
+sNewBoxEnd::
 
-	ds $100
+for n, 1, NUM_BOXES + 1
+sBackupNewBox{d:n}:: newbox sBackupNewBox{d:n}
+endr
+sBackupNewBoxEnd::
+
+sWritingBackup:: db ; 1 if we're saving, anything else if not.
+
+	ds $ff
 
 
 SECTION "Link Battle Data", SRAM
@@ -169,38 +199,23 @@ sBTMonOfTrainers::
 ; team of previous trainer
 ; sBTMonPrevTrainer1 - sBTMonPrevTrainer3
 for n, 1, BATTLETOWER_PARTY_LENGTH + 1
-sBTMonPrevTrainer{d:n}:: db
+sBTMonPrevTrainer{d:n}:: dw
 endr
 ; team of preprevious trainer
 ; sBTMonPrevPrevTrainer1 - sBTMonPrevPrevTrainer3
 for n, 1, BATTLETOWER_PARTY_LENGTH + 1
-sBTMonPrevPrevTrainer{d:n}:: db
+sBTMonPrevPrevTrainer{d:n}:: dw
 endr
 
 
-; The PC boxes will not fit into one SRAM bank,
-; so they use multiple SECTIONs
-DEF box_n = 0
-MACRO boxes
-	rept \1
-		DEF box_n += 1
-	sBox{d:box_n}:: box sBox{d:box_n}
-	endr
-ENDM
+SECTION "PokeDB Bank 1", SRAM
 
-SECTION "Boxes 1-7", SRAM
+sNewBoxMons1:: pokedb sNewBoxMons1, MONDB_ENTRIES
 
-; sBox1 - sBox7
-	boxes 7
 
-SECTION "Boxes 8-14", SRAM
+SECTION "PokeDB Bank 2", SRAM
 
-; sBox8 - sBox14
-	boxes 7
-
-; All 14 boxes fit exactly within 2 SRAM banks
-	assert box_n == NUM_BOXES, \
-		"boxes: Expected {d:NUM_BOXES} total boxes, got {d:box_n}"
+sNewBoxMons2:: pokedb sNewBoxMons2, MONDB_ENTRIES
 
 
 SECTION "SRAM Mobile 1", SRAM

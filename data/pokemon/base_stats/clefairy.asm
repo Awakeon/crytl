@@ -1,9 +1,9 @@
-	db CLEFAIRY ; 035
+	db 0 ; species ID placeholder
 
 	db  70,  45,  48,  35,  60,  65
 	;   hp  atk  def  spd  sat  sdf
 
-	db NORMAL, NORMAL ; type
+	db FAIRY, FAIRY ; type
 	db 150 ; catch rate
 	db 68 ; base exp
 	db MYSTERYBERRY, MOON_STONE ; items

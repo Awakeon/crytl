@@ -75,6 +75,8 @@
 ; Actual characters (from gfx/font/font_battle_extra.png)
 
 	charmap "<LV>",      $6e
+	charmap "<DEX_LV>",  $5d
+	charmap "<DEX_LV_VRAM1>",$74
 
 	charmap "<DO>",      $70 ; hiragana small do, unused
 	charmap "◀",         $71
@@ -90,11 +92,18 @@
 	charmap "☎",         $62 ; gfx/font/phone_icon.2bpp
 
 	; needed for MagikarpHouseSign (see engine/events/magikarp.asm)
-	charmap "′",         $6e ; gfx/font/feet_inches.png
-	charmap "″",         $6f ; gfx/font/feet_inches.png
+	charmap "′",         $ce ; gfx/font/feet_inches.png
+	charmap "″",         $cf ; gfx/font/feet_inches.png
 
 	; needed for StatsScreen_PlaceShinyIcon and PrintPartyMonPage1
 	charmap "⁂",         $3f ; gfx/stats/stats_tiles.png, tile 14
+	charmap "<DEX_⁂>",   $64 ; gfx/stats/stats_tiles.png, tile 14, VRAM0
+
+	charmap ">",		 $bb
+	charmap "<",		 $bc
+	charmap "=",		 $bd
+	charmap "+",		 $be
+	charmap "<%>",		 $bf
 
 ; Actual characters (from gfx/font/font.png)
 

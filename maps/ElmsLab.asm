@@ -106,10 +106,10 @@ ElmCheckEverstone:
 	iftrue ElmGiveEverstoneScript
 	checkevent EVENT_TOLD_ELM_ABOUT_TOGEPI_OVER_THE_PHONE
 	iffalse ElmCheckTogepiEgg
-	setval TOGEPI
+	loadmonindex 1, TOGEPI
 	special FindPartyMonThatSpeciesYourTrainerID
 	iftrue ShowElmTogepiScript
-	setval TOGETIC
+	loadmonindex 2, TOGETIC
 	special FindPartyMonThatSpeciesYourTrainerID
 	iftrue ShowElmTogepiScript
 	writetext ElmThoughtEggHatchedText
@@ -118,10 +118,10 @@ ElmCheckEverstone:
 	end
 
 ElmEggHatchedScript:
-	setval TOGEPI
+	loadmonindex 1, TOGEPI
 	special FindPartyMonThatSpeciesYourTrainerID
 	iftrue ShowElmTogepiScript
-	setval TOGETIC
+	loadmonindex 2, TOGETIC
 	special FindPartyMonThatSpeciesYourTrainerID
 	iftrue ShowElmTogepiScript
 	sjump ElmCheckGotEggAgain
@@ -479,7 +479,7 @@ AideScript_GivePotion:
 	waitbutton
 	closetext
 	setscene SCENE_ELMSLAB_NOOP
-	end
+    end
 
 AideScript_WalkBalls1:
 	applymovement ELMSLAB_ELMS_AIDE, AideWalksRight1
@@ -998,6 +998,10 @@ ElmAfterTheftText5:
 	para "<PLAY_G>, is that"
 	line "true? Th-that's"
 	cont "incredible!"
+
+	para "The #DEX shows"
+	line "how #MON evolve"
+	cont "and learn moves."
 
 	para "He is superb at"
 	line "seeing the poten-"

@@ -1,9 +1,9 @@
-	db LICKITUNG ; 108
+	db 0 ; species ID placeholder
 
 	db  90,  55,  75,  30,  60,  75
 	;   hp  atk  def  spd  sat  sdf
 
-	db NORMAL, NORMAL ; type
+	db NORMAL, POISON ; type
 	db 45 ; catch rate
 	db 127 ; base exp
 	db NO_ITEM, NO_ITEM ; items

@@ -31,7 +31,6 @@ VermilionGymSurgeScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_THUNDERBADGE
-	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext
 	end
@@ -137,11 +136,6 @@ ReceivedThunderBadgeText:
 	text "<PLAYER> received"
 	line "THUNDERBADGE."
 	done
-
-LtSurgeThunderBadgeText:
-	text "SURGE: THUNDER-"
-	line "BADGE increases"
-	cont "#MON's speed. "
 
 	para "Consider it proof"
 	line "that you defeated"

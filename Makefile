@@ -14,6 +14,7 @@ rom_obj := \
 	data/pokemon/evos_attacks.o \
 	engine/movie/credits.o \
 	engine/overworld/events.o \
+	gfx/icons.o \
 	gfx/misc.o \
 	gfx/pics.o \
 	gfx/sprites.o \
@@ -21,8 +22,8 @@ rom_obj := \
 	lib/mobile/main.o \
 	lib/mobile/mail.o
 
-pokecrystal_obj         := $(rom_obj:.o=.o)
-pokecrystal11_vc_obj    := $(rom_obj:.o=_vc.o)
+pokecrystal_obj    := $(rom_obj:.o=.o)
+pokecrystal_vc_obj := $(rom_obj:.o=_vc.o)
 
 
 ### Build tools
@@ -188,6 +189,8 @@ gfx/title/logo.2bpp: rgbgfx += -x 4
 gfx/trade/ball.2bpp: tools/gfx += --remove-whitespace
 gfx/trade/game_boy.2bpp: tools/gfx += --remove-duplicates --preserve=0x23,0x27
 gfx/trade/game_boy_cable.2bpp: gfx/trade/game_boy.2bpp gfx/trade/link_cable.2bpp ; cat $^ > $@
+
+gfx/pc/obj.2bpp: gfx/pc/modes.2bpp gfx/pc/packs.2bpp ; cat $^ > $@
 
 gfx/slots/slots_1.2bpp: tools/gfx += --trim-whitespace
 gfx/slots/slots_2.2bpp: tools/gfx += --interleave --png=$<

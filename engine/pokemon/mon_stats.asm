@@ -142,14 +142,16 @@ GetGender:
 	and a
 	jr z, .PartyMon
 
+	ld hl, wBufferMonDVs
+	cp BUFFERMON
+	jr z, .DVs
+
 ; 1: OTPartyMon
 	ld hl, wOTPartyMon1DVs
 	dec a
 	jr z, .PartyMon
 
 ; 2: sBoxMon
-	ld hl, sBoxMon1DVs
-	ld bc, BOXMON_STRUCT_LENGTH
 	dec a
 	jr z, .sBoxMon
 
@@ -164,18 +166,16 @@ GetGender:
 
 ; Get our place in the party/box.
 
+.sBoxMon:
+	; old box code access; crash
+	di
+	jp @
+
 .PartyMon:
-.sBoxMon
 	ld a, [wCurPartyMon]
 	call AddNTimes
 
 .DVs:
-; sBoxMon data is read directly from SRAM.
-	ld a, [wMonType]
-	cp BOXMON
-	ld a, BANK(sBox)
-	call z, OpenSRAM
-
 ; Attack DV
 	ld a, [hli]
 	and $f0
@@ -189,21 +189,20 @@ GetGender:
 	or b
 	ld b, a
 
-; Close SRAM if we were dealing with a sBoxMon.
-	ld a, [wMonType]
-	cp BOXMON
-	call z, CloseSRAM
-
 ; We need the gender ratio to do anything with this.
 	push bc
 	ld a, [wCurPartySpecies]
-	dec a
-	ld hl, BaseData + BASE_GENDER
-	ld bc, BASE_DATA_SIZE
-	call AddNTimes
-	pop bc
-
+	call GetPokemonIndexFromID
+	ld b, h
+	ld c, l
+	ld hl, BaseData
 	ld a, BANK(BaseData)
+	call LoadIndirectPointer
+	ld bc, BASE_GENDER
+	add hl, bc
+	pop bc
+	jr z, .Genderless
+
 	call GetFarByte
 
 ; The higher the ratio, the more likely the monster is to be female.
@@ -446,10 +445,8 @@ ListMoves:
 	push de
 	push hl
 	push hl
-	ld [wCurSpecies], a
-	ld a, MOVE_NAME
-	ld [wNamedObjectType], a
-	call GetName
+	ld [wNamedObjectIndex], a
+	call GetMoveName
 	ld de, wStringBuffer1
 	pop hl
 	push bc
@@ -486,4 +483,18 @@ ListMoves:
 	jr nz, .nonmove_loop
 
 .done
+	ret
+
+GetMonTypeIndex:
+; type in c, because farcall clobbers a
+	ld a, c
+	; Skip Bird
+	cp BIRD
+	jr c, .done
+	cp UNUSED_TYPES
+	dec a
+	jr c, .done
+	sub UNUSED_TYPES
+.done
+	ld c, a
 	ret

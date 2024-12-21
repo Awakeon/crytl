@@ -135,7 +135,9 @@ wMapTimeOfDay:: db
 
 wPrinterConnectionOpen:: db
 wPrinterOpcode:: db
-wPrevDexEntry:: db
+
+	ds 1
+
 wDisableTextAcceleration:: db
 wPrevLandmark:: db
 wCurLandmark:: db
@@ -716,16 +718,14 @@ ENDU
 UNION
 ; pokedex
 wPokedexDataStart::
-wPokedexOrder:: ds $100 ; >= NUM_POKEMON
-wPokedexOrderEnd::
-wDexListingScrollOffset:: db ; offset of the first displayed entry from the start
+wDexListingScrollOffset:: dw ; offset of the first displayed entry from the start
 wDexListingCursor:: db ; Dex cursor
-wDexListingEnd:: db ; Last mon to display
+wDexListingEnd:: dw ; Last mon to display
 wDexListingHeight:: db ; number of entries displayed at once in the dex listing
 wCurDexMode:: db ; Pokedex Mode
 wDexSearchMonType1:: db ; first type to search
 wDexSearchMonType2:: db ; second type to search
-wDexSearchResultCount:: db
+wDexSearchResultCount:: dw
 wDexArrowCursorPosIndex:: db
 wDexArrowCursorDelayCounter:: db
 wDexArrowCursorBlinkCounter:: db
@@ -734,14 +734,24 @@ wUnlockedUnownMode:: db
 wDexCurUnownIndex:: db
 wDexUnownCount:: db
 wDexConvertedMonType:: db ; mon type converted from dex search mon type
-wDexListingScrollOffsetBackup:: db
+wDexListingScrollOffsetBackup:: dw
 wDexListingCursorBackup:: db
 wBackupDexListingCursor:: db
-wBackupDexListingPage:: db
+wBackupDexListingPage:: dw
 wDexCurLocation:: db
 wPokedexStatus:: db
+wPokedexDisplayNumber:: dw
+wDexLastSeenIndex:: db ; index into wPokedexSeen containing the last non-zero value
+wDexLastSeenValue:: db ; value at index
+wDexTempCounter:: dw
 wPokedexDataEnd::
-	ds 2
+
+wPrevDexEntry:: dw
+wPrevDexEntryBackup:: dw
+wPrevDexEntryJumptableIndex:: db
+
+wPokedexNameBuffer:: ds MON_NAME_LENGTH
+	ds 231
 
 NEXTU
 ; pokegear
@@ -916,22 +926,71 @@ wGameboyPrinterRAMEnd::
 SECTION UNION "Overworld Map", WRAM0
 
 ; bill's pc data
-wBillsPCData::
-wBillsPCPokemonList::
-; (species, box number, list index) x30
-	ds 3 * 30
-	ds 720
-wBillsPC_ScrollPosition:: db
-wBillsPC_CursorPosition:: db
-wBillsPC_NumMonsInBox:: db
-wBillsPC_NumMonsOnScreen:: db
-wBillsPC_LoadedBox:: db ; 0 if party, 1 - 14 if box, 15 if active box
-wBillsPC_BackupScrollPosition:: db
-wBillsPC_BackupCursorPosition:: db
-wBillsPC_BackupLoadedBox:: db
-wBillsPC_MonHasMail:: db
-	ds 5
-wBillsPCDataEnd::
+
+; If you change ordering of this, remember to fix LCD hblank code too.
+; Note that (as of when comment was written), hblank can't always keep up
+; if doing 4 pals in one go during party shifting.
+wBillsPC_CurPals::
+wBillsPC_CurPartyPals:: ds 2 * 2 * 2 ; 2 bytes per color, 2 colors, 2 mons
+wBillsPC_CurMonPals:: ds 2 * 2 * 4 ; 2 bytes per color, 2 colors, 4 mons
+
+; Stores palettes used for party+box.
+wBillsPC_PalList::
+wBillsPC_PokepicPal:: ds 2 * 2 * 1
+
+	ds 2 * 2 * 1 ; unused BG3 for shiny+pokerus icons
+
+wBillsPC_MonPals1:: ds 2 * 2 * 4
+
+	ds 2 * 2 * 2 ; unused row2 BG2-3
+
+wBillsPC_MonPals2:: ds 2 * 2 * 4
+wBillsPC_PartyPals3:: ds 2 * 2 * 2
+wBillsPC_MonPals3:: ds 2 * 2 * 4
+wBillsPC_PartyPals4:: ds 2 * 2 * 2
+wBillsPC_MonPals4:: ds 2 * 2 * 4
+wBillsPC_PartyPals5:: ds 2 * 2 * 2
+wBillsPC_MonPals5:: ds 2 * 2 * 4
+
+; Species lists
+wBillsPC_PartyList:: ds 6
+wBillsPC_BoxList:: ds 20
+
+wBillsPC_HeldIcon:: db
+wBillsPC_QuickIcon:: db
+
+; Cursor data
+wBillsPC_CursorItem:: db ; what item is selected.
+wBillsPC_CursorPos:: db ; 0-3 * 4*row, row 0 is title. Bit 7 means in party.
+wBillsPC_CursorHeldBox:: db ; 0 for party, 1-16 otherwise
+wBillsPC_CursorHeldSlot:: db ; 0 for nothing held, or 1-20 (1-6 if party)
+wBillsPC_CursorDestBox:: db ; 0 for party, 1-16 otherwise
+wBillsPC_CursorDestSlot:: db ; 0 for release, or 1-20 (1-6 if party)
+wBillsPC_CursorMode:: db ; 0 for regular mode (red), 1 for swap mode (blue), 2 for item mode (green)
+wBillsPC_CursorAnimFlag:: db ; manage cursor behaviour
+
+; Quick-move sprite data
+wBillsPC_QuickFrom::
+wBillsPC_QuickFromBox:: db
+wBillsPC_QuickFromSlot:: db
+wBillsPC_QuickFromX:: db
+wBillsPC_QuickFromY:: db
+
+wBillsPC_QuickTo::
+wBillsPC_QuickToBox:: db
+wBillsPC_QuickToSlot:: db
+wBillsPC_QuickToX:: db
+wBillsPC_QuickToY:: db
+wBillsPC_QuickFrames:: db
+
+wBillsPC_ApplyThemePals:: db ; used by _CGB_BillsPC
+
+	ds 2
+
+wBillsPC_Blank2bppTiles::
+; Since we need GDMA for fast blank copy, reserve blank tiles here.
+	ds 4 tiles
+wBillsPC_ItemVWF:: ds 10 tiles
 
 
 SECTION UNION "Overworld Map", WRAM0
@@ -1526,12 +1585,6 @@ wCreditsBorderMon:: db
 wCreditsLYOverride:: db
 
 NEXTU
-; pokedex
-wPrevDexEntryJumptableIndex:: db
-wPrevDexEntryBackup:: db
-wUnusedPokedexByte:: db
-
-NEXTU
 ; pokegear
 wPokegearCard:: db
 wPokegearMapRegion:: db
@@ -1811,6 +1864,16 @@ wMinutesSince:: db
 wHoursSince:: db
 wDaysSince:: db
 
+	ds 7
+
+wTempLoopCounter:: db
+
+
+SECTION "16-bit WRAM home data", WRAM0
+; align to $20
+
+wConversionTableBitmap:: ds $20
+
 
 SECTION "WRAM 1", WRAMX
 
@@ -1826,10 +1889,21 @@ wDefaultSpawnpoint:: db
 SECTION UNION "Miscellaneous WRAM 1", WRAMX
 
 ; mon buffer
+UNION
+wBufferMon:: party_struct wBufferMon
+wBufferMonAltSpecies:: db ; the 2nd (usually redundant) species byte, for eggs
 wBufferMonNickname:: ds MON_NAME_LENGTH
 wBufferMonOT:: ds NAME_LENGTH
-wBufferMon:: party_struct wBufferMon
-	ds 8
+NEXTU
+wEncodedBufferMon:: savemon_struct wEncodedBufferMon
+ENDU
+
+; Points towards box + slot if using GetStorageBoxMon. Slot set to 0 if empty.
+wBufferMonBox:: db
+wBufferMonSlot:: db
+
+wLuckyNumberDigitsBuffer:: ds 5
+
 wMonOrItemNameBuffer:: ds NAME_LENGTH
 	ds NAME_LENGTH
 
@@ -1914,12 +1988,6 @@ wNumRadioLinesPrinted:: db
 wOaksPKMNTalkSegmentCounter:: db
 	ds 5
 wRadioText:: ds 2 * SCREEN_WIDTH
-
-
-SECTION UNION "Miscellaneous WRAM 1", WRAMX
-
-; lucky number show
-wLuckyNumberDigitsBuffer:: ds 5
 
 
 SECTION UNION "Miscellaneous WRAM 1", WRAMX
@@ -2362,7 +2430,7 @@ wSpriteFlags:: db
 
 wHandlePlayerStep:: db
 
-	ds 1
+wCurIconMonHasItemOrMail:: db
 
 wPartyMenuActionText:: db
 
@@ -2663,7 +2731,7 @@ wMoveSelectionMenuType:: db
 
 ; corresponds to the data/pokemon/base_stats/*.asm contents
 wCurBaseData::
-wBaseDexNo:: db
+wBaseSpecies:: db
 wBaseStats::
 wBaseHP:: db
 wBaseAttack:: db
@@ -2898,7 +2966,10 @@ wStartSecond:: db
 
 wRTC:: ds 4
 
-	ds 4
+wPokedexEntryType::     db
+wPokedexEntryPageNum::  db
+wPokedexEvoStage2::		db
+wPokedexEvoStage3::     db
 
 wDST::
 ; bit 7: dst
@@ -2915,7 +2986,9 @@ wGameTimeFrames::  db
 
 wCurDay:: db
 
-	ds 1
+wPokedexShinyToggle::
+; bit 0: set if displaying shiny palettes
+	db
 
 wObjectFollow_Leader:: db
 wObjectFollow_Follower:: db
@@ -3017,7 +3090,7 @@ wPokegearFlags::
 	db
 wRadioTuningKnob:: db
 wLastDexMode:: db
-	ds 1
+wCurPokedexColor:: db ; current dex color
 wWhichRegisteredItem:: db
 wRegisteredItem:: db
 
@@ -3118,7 +3191,7 @@ wMobileBattleRoomSceneID::                        db
 
 ; fight counts
 wJackFightCount::    db
-wBeverlyFightCount:: db ; unreferenced
+wLevelCap:: db
 wHueyFightCount::    db
 wGavenFightCount::   db
 wBethFightCount::    db
@@ -3152,9 +3225,7 @@ wEventFlags:: flag_array NUM_EVENTS
 
 wCurBox:: db
 
-	ds 2
-
-wBoxNames:: ds BOX_NAME_LENGTH * NUM_BOXES
+	ds 128
 
 wCelebiEvent::
 ; bit 2: forest is restless
@@ -3427,6 +3498,12 @@ wPokeAnimBitmaskBuffer:: ds 7
 wPokeAnimStructEnd::
 
 
+SECTION "16-bit WRAM tables", WRAMX
+; align this section to $100
+	wram_conversion_table wPokemonIndexTable, MON_TABLE
+	wram_conversion_table wMoveIndexTable, MOVE_TABLE
+
+
 SECTION "Battle Tower RAM", WRAMX
 
 w3_d000:: ds 1
@@ -3531,6 +3608,14 @@ wLYOverridesBackup:: ds SCREEN_HEIGHT_PX
 wLYOverridesBackupEnd::
 
 
+SECTION "Used Storage", WRAMX
+
+wPokeDBUsedEntries::
+wPokeDB1UsedEntries:: flag_array MONDB_ENTRIES
+wPokeDB2UsedEntries:: flag_array MONDB_ENTRIES
+wPokeDBUsedEntriesEnd::
+
+
 SECTION "Battle Animations", WRAMX
 
 wBattleAnimTileDict::
@@ -3610,8 +3695,9 @@ wSurfWaveBGEffectEnd::
 ENDU
 
 
-SECTION "Mobile RAM", WRAMX
+SECTION "Mobile RAM and Pokedex Listings", WRAMX
 
+UNION
 w5_d800:: ds $200
 w5_da00:: ds $200
 w5_dc00:: ds $d
@@ -3622,6 +3708,10 @@ w5_MobileOpponentBattleStartMessage:: ds $c
 w5_MobileOpponentBattleWinMessage:: ds $c
 w5_MobileOpponentBattleLossMessage:: ds $c
 
+NEXTU
+wPokedexOrder:: ds 2 * (NUM_POKEMON + 1) ; enough room to expand to 1,407 entries
+
+ENDU
 
 SECTION "Scratch RAM", WRAMX
 
@@ -3631,6 +3721,11 @@ wScratchAttrmap:: ds BG_MAP_WIDTH * BG_MAP_HEIGHT
 
 NEXTU
 wDecompressScratch:: ds $100 tiles
+
+NEXTU
+
+	ds $80 tiles
+wDecompressEnemyFrontpic:: ds $80 tiles
 
 NEXTU
 ; unidentified uses

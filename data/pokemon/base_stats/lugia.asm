@@ -1,9 +1,9 @@
-	db LUGIA ; 249
+	db 0 ; species ID placeholder
 
 	db 106,  90, 130, 110,  90, 154
 	;   hp  atk  def  spd  sat  sdf
 
-	db PSYCHIC_TYPE, FLYING ; type
+	db WATER, FLYING ; type
 	db 3 ; catch rate
 	db 220 ; base exp
 	db NO_ITEM, NO_ITEM ; items

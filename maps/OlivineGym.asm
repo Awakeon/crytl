@@ -30,7 +30,6 @@ OlivineGymJasmineScript:
 .FightDone:
 	checkevent EVENT_GOT_TM23_IRON_TAIL
 	iftrue .GotIronTail
-	writetext Jasmine_BadgeSpeech
 	promptbutton
 	verbosegiveitem TM_IRON_TAIL
 	iffalse .NoRoomForIronTail
@@ -135,11 +134,6 @@ Text_ReceivedMineralBadge:
 	text "<PLAYER> received"
 	line "MINERALBADGE."
 	done
-
-Jasmine_BadgeSpeech:
-	text "MINERALBADGE"
-	line "raises #MON's"
-	cont "DEFENSE."
 
 	para "…Um… Please take"
 	line "this too…"

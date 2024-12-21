@@ -5,6 +5,10 @@ DEF CELADONGAMECORNERPRIZEROOM_PIKACHU_COINS  EQU 2222
 DEF CELADONGAMECORNERPRIZEROOM_PORYGON_COINS  EQU 5555
 DEF CELADONGAMECORNERPRIZEROOM_LARVITAR_COINS EQU 8888
 
+EXPORT CELADONGAMECORNERPRIZEROOM_PIKACHU_COINS
+EXPORT CELADONGAMECORNERPRIZEROOM_PORYGON_COINS
+EXPORT CELADONGAMECORNERPRIZEROOM_LARVITAR_COINS
+
 	object_const_def
 	const CELADONGAMECORNERPRIZEROOM_GENTLEMAN
 	const CELADONGAMECORNERPRIZEROOM_PHARMACIST
@@ -151,7 +155,7 @@ CeladonGameCornerPrizeRoomPokemonVendor:
 	playsound SFX_TRANSACTION
 	writetext CeladonPrizeRoom_HereYouGoText
 	waitbutton
-	setval PIKACHU
+	loadmonindex 1, PIKACHU
 	special GameCornerPrizeMonCheckDex
 	givepoke PIKACHU, 25
 	takecoins CELADONGAMECORNERPRIZEROOM_PIKACHU_COINS
@@ -169,7 +173,7 @@ CeladonGameCornerPrizeRoomPokemonVendor:
 	playsound SFX_TRANSACTION
 	writetext CeladonPrizeRoom_HereYouGoText
 	waitbutton
-	setval PORYGON
+	loadmonindex 2, PORYGON
 	special GameCornerPrizeMonCheckDex
 	givepoke PORYGON, 15
 	takecoins CELADONGAMECORNERPRIZEROOM_PORYGON_COINS
@@ -187,7 +191,7 @@ CeladonGameCornerPrizeRoomPokemonVendor:
 	playsound SFX_TRANSACTION
 	writetext CeladonPrizeRoom_HereYouGoText
 	waitbutton
-	setval LARVITAR
+	loadmonindex 3, LARVITAR
 	special GameCornerPrizeMonCheckDex
 	givepoke LARVITAR, 40
 	takecoins CELADONGAMECORNERPRIZEROOM_LARVITAR_COINS

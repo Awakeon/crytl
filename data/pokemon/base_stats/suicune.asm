@@ -1,9 +1,9 @@
-	db SUICUNE ; 245
+	db 0 ; species ID placeholder
 
 	db 100,  75, 115,  85,  90, 115
 	;   hp  atk  def  spd  sat  sdf
 
-	db WATER, WATER ; type
+	db ICE, ICE ; type
 	db 3 ; catch rate
 	db 215 ; base exp
 	db NO_ITEM, NO_ITEM ; items

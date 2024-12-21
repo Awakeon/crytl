@@ -79,6 +79,7 @@ SageLiScript:
 	verbosegiveitem HM_FLASH
 	setevent EVENT_GOT_HM05_FLASH
 	setevent EVENT_BEAT_SAGE_LI
+	loadmem wLevelCap, 20
 	writetext SageLiFlashExplanationText
 	waitbutton
 	closetext

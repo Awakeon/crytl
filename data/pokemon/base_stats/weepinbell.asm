@@ -1,6 +1,6 @@
-	db WEEPINBELL ; 070
+	db 0 ; species ID placeholder
 
-	db  65,  90,  50,  55,  85,  45
+	db  65,  80,  65,  55,  65,  55
 	;   hp  atk  def  spd  sat  sdf
 
 	db GRASS, POISON ; type

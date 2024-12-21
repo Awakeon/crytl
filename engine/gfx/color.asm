@@ -5,6 +5,88 @@ DEF SHINY_DEF_DV EQU 10
 DEF SHINY_SPD_DV EQU 10
 DEF SHINY_SPC_DV EQU 10
 
+LoadMonBaseTypePal:
+	; destination address of Palette and Slot is passed in 'de'
+	; Type Index (already fixed/adjusted if a Special Type) is passed in 'c'
+	ld hl, TypeIconPals ; pointer to the Type Colors designated in gfx\types_cats_status_pals.asm
+	ld a, c ; c is the Type Index
+	add a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld bc, 2
+	jp FarCopyColorWRAM
+
+LoadSingleBlackPal:
+	; Destination address of the Palette and Slot is passed in 'de'
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wBGPals1)
+	ldh [rSVBK], a
+	xor a ; the color black is $0000
+	ld [de], a
+	inc de
+	ld [de], a
+	inc de
+
+	pop af
+	ldh [rSVBK], a
+	ret
+
+LoadDexTypePals:
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wBGPals1)
+	ldh [rSVBK], a
+	xor a
+	ld [de], a
+	inc de
+	ld [de], a
+	inc de
+	pop af
+	ldh [rSVBK], a	
+
+	ld hl, TypeIconPals
+	ld a, b
+	add a
+	push bc
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld bc, 2
+	push de
+	call FarCopyColorWRAM
+	pop de
+
+	ld hl, TypeIconPals
+	pop bc
+	ld a, c
+	add a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	inc de
+	inc de
+	ld bc, 2
+	push de
+	call FarCopyColorWRAM
+	pop de
+	inc de
+	inc de
+
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wBGPals1)
+	ldh [rSVBK], a
+	xor a
+	ld [de], a
+	inc de
+	ld [de], a
+	inc de
+	pop af
+	ldh [rSVBK], a
+	ret
+
 CheckShininess:
 ; Check if a mon is shiny by DVs at bc.
 ; Return carry if shiny.
@@ -470,11 +552,12 @@ GetPredefPal:
 	ret
 
 LoadHLPaletteIntoDE:
+	ld c, 1 palettes
+LoadHLBytesIntoDE:
 	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wOBPals1)
 	ldh [rSVBK], a
-	ld c, 1 palettes
 .loop
 	ld a, [hli]
 	ld [de], a
@@ -655,10 +738,23 @@ CGB_ApplyPartyMenuHPPals:
 InitPartyMenuOBPals:
 	ld hl, PartyMenuOBPals
 	ld de, wOBPals1
-	ld bc, 2 palettes
+	ld bc, 8 palettes
 	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
 	ret
+
+SetFirstOBJPalette::
+; input: e must contain the offset of the selected palette from PartyMenuOBPals
+	ld hl, PartyMenuOBPals
+	ld d, 0
+	add hl, de
+	ld de, wOBPals1
+	ld bc, 1 palettes
+	ld a, BANK(wOBPals1)
+	call FarCopyWRAM
+	ld a, TRUE
+	ldh [hCGBPalUpdate], a
+	jp ApplyPals
 
 GetBattlemonBackpicPalettePointer:
 	push de
@@ -761,8 +857,7 @@ CGBCopyTwoPredefObjectPals: ; unreferenced
 	ret
 
 _GetMonPalettePointer:
-	ld l, a
-	ld h, 0
+	call GetPokemonIndexFromID
 	add hl, hl
 	add hl, hl
 	add hl, hl
@@ -1293,6 +1388,8 @@ endr
 	call FarCopyWRAM
 	ret
 
+INCLUDE "gfx/type_pals.asm"
+
 INCLUDE "data/maps/environment_colors.asm"
 
 PartyMenuBGMobilePalette:
@@ -1300,6 +1397,19 @@ INCLUDE "gfx/stats/party_menu_bg_mobile.pal"
 
 PartyMenuBGPalette:
 INCLUDE "gfx/stats/party_menu_bg.pal"
+
+BillsPC_ThemePals:
+	table_width PAL_COLOR_SIZE * 4, BillsPC_ThemePals
+INCLUDE "gfx/pc/themes.pal"
+	assert_table_length NUM_BILLS_PC_THEMES
+
+BillsPC_CursorPalette:
+	; middle colors are set dynamically
+	RGB 31,31,31, 31,31,31, 00,00,00, 00,00,00
+BillsPC_PackPalette:
+	RGB 31,31,31, 31,31,31, 07,19,07, 00,00,00
+BillsPC_WhitePalette:
+	RGB 31,31,31, 31,31,31, 31,31,31, 31,31,31
 
 TilesetBGPalette:
 INCLUDE "gfx/tilesets/bg_tiles.pal"

@@ -13,6 +13,18 @@ DEF AUTO_INPUT EQU $ff
 	const DEXMODE_ABC
 	const DEXMODE_UNOWN
 
+; wPokedexColor
+	const_def
+	const DEXCOLOR_RED
+	const DEXCOLOR_BLUE
+	const DEXCOLOR_PURPLE
+	const DEXCOLOR_BROWN
+	const DEXCOLOR_GREEN
+	const DEXCOLOR_PINK
+	const DEXCOLOR_YELLOW
+	const DEXCOLOR_CYAN
+	const DEXCOLOR_GRAY
+
 ; wMonType::
 	const_def
 	const PARTYMON   ; 0
@@ -20,6 +32,7 @@ DEF AUTO_INPUT EQU $ff
 	const BOXMON     ; 2
 	const TEMPMON    ; 3
 	const WILDMON    ; 4
+	const BUFFERMON  ; 5
 
 ; wGameTimerPaused::
 DEF GAME_TIMER_COUNTING_F EQU 0

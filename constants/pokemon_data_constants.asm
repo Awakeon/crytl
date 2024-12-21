@@ -1,6 +1,6 @@
 ; base data struct members (see data/pokemon/base_stats/*.asm)
 rsreset
-DEF BASE_DEX_NO      rb
+DEF BASE_SPECIES     rb
 DEF BASE_STATS       rb NUM_STATS
 rsset BASE_STATS
 DEF BASE_HP          rb
@@ -109,8 +109,57 @@ DEF MON_SAT                rw
 DEF MON_SDF                rw
 DEF PARTYMON_STRUCT_LENGTH EQU _RS
 
+; savemon_struct members (see macros/wram.asm)
+rsreset
+DEF SAVEMON_SPECIES_LOW        rb
+DEF SAVEMON_ITEM               rb
+DEF SAVEMON_MOVES_LOW          rb NUM_MOVES
+DEF SAVEMON_ID                 rw
+DEF SAVEMON_EXP                rb 3
+rsset SAVEMON_EXP
+DEF SAVEMON_IS_EGG             rb ; EGG is stored in the most significant EXP bit.
+                               rb_skip
+                               rb_skip
+DEF SAVEMON_STAT_EXP           rw NUM_EXP_STATS
+rsset SAVEMON_STAT_EXP
+DEF SAVEMON_HP_EXP             rw
+DEF SAVEMON_ATK_EXP            rw
+DEF SAVEMON_DEF_EXP            rw
+DEF SAVEMON_SPD_EXP            rw
+DEF SAVEMON_SPC_EXP            rw
+DEF SAVEMON_DVS                rw
+; savemon_struct is identical to party_struct before this point
+DEF SAVEMON_MOVES_HIGH         rb NUM_MOVES
+rsset SAVEMON_MOVES_HIGH
+DEF SAVEMON_PP_UPS             rb NUM_MOVES
+; savemon_struct is shifted from party_struct beyond this point
+DEF SAVEMON_HAPPINESS          rb
+DEF SAVEMON_PKRUS              rb
+DEF SAVEMON_CAUGHTDATA         rw
+rsset SAVEMON_CAUGHTDATA
+DEF SAVEMON_CAUGHTTIME         rb
+DEF SAVEMON_CAUGHTGENDER       rb
+rsset SAVEMON_CAUGHTDATA
+DEF SAVEMON_CAUGHTLEVEL        rb
+DEF SAVEMON_CAUGHTLOCATION     rb
+DEF SAVEMON_LEVEL              rb
+; savemon_struct is different from party_struct beyond this point
+DEF SAVEMON_SPECIES_HIGH       rb
+DEF SAVEMON_NICKNAME           rb MON_NAME_LENGTH - 1
+DEF SAVEMON_OT                 rb PLAYER_NAME_LENGTH - 1
+DEF SAVEMON_STRUCT_LENGTH EQU _RS
+
 DEF NICKNAMED_MON_STRUCT_LENGTH EQU PARTYMON_STRUCT_LENGTH + MON_NAME_LENGTH
 DEF REDMON_STRUCT_LENGTH EQU 44
+
+; savemon Exp masks
+DEF IS_EGG_MASK EQU %10000000
+DEF EXP_MASK    EQU %01111111
+
+DEF IS_EGG_F EQU 7
+
+; savemon Move High Mask
+DEF MOVES_HIGH_MASK EQU %00111111
 
 ; caught data
 
@@ -133,15 +182,16 @@ DEF PARTY_LENGTH EQU 6
 
 ; boxes
 DEF MONS_PER_BOX EQU 20
-; box: count, species, mons, OTs, nicknames, padding
-DEF BOX_LENGTH EQU 1 + MONS_PER_BOX + 1 + (BOXMON_STRUCT_LENGTH + NAME_LENGTH + MON_NAME_LENGTH) * MONS_PER_BOX + 2 ; $450
-DEF NUM_BOXES EQU 14
+
+DEF MONDB_ENTRIES   EQU 163
+DEF MIN_MONDB_SLACK EQU 10
+DEF NUM_BOXES       EQU (MONDB_ENTRIES * 2 - MIN_MONDB_SLACK) / MONS_PER_BOX ; 16
 
 ; hall of fame
 ; hof_mon: species, id, dvs, level, nicknames
-DEF HOF_MON_LENGTH EQU 1 + 2 + 2 + 1 + (MON_NAME_LENGTH - 1) ; $10
+DEF HOF_MON_LENGTH EQU 2 + 2 + 2 + 1 + (MON_NAME_LENGTH - 1)
 ; hall_of_fame: win count, party, terminator
-DEF HOF_LENGTH EQU 1 + HOF_MON_LENGTH * PARTY_LENGTH + 1 ; $62
+DEF HOF_LENGTH EQU 1 + HOF_MON_LENGTH * PARTY_LENGTH + 2
 DEF NUM_HOF_TEAMS EQU 30
 
 ; evolution types (used in data/pokemon/evos_attacks.asm)
@@ -169,11 +219,12 @@ DEF NUM_HOF_TEAMS EQU 30
 DEF NUM_GRASSMON EQU 7 ; data/wild/*_grass.asm table size
 DEF NUM_WATERMON EQU 3 ; data/wild/*_water.asm table size
 
-DEF GRASS_WILDDATA_LENGTH EQU 2 + 3 + NUM_GRASSMON * 2 * 3
-DEF WATER_WILDDATA_LENGTH EQU 2 + 1 + NUM_WATERMON * 2
+DEF GRASS_WILDDATA_LENGTH EQU 2 + (1 + NUM_GRASSMON * 3) * 3
+DEF WATER_WILDDATA_LENGTH EQU 2 + (1 + NUM_WATERMON * 3) * 1
 DEF FISHGROUP_DATA_LENGTH EQU 1 + 2 * 3
 
 DEF NUM_ROAMMON_MAPS EQU 16 ; RoamMaps table size (see data/wild/roammon_maps.asm)
+DEF NUM_ROAMMONS EQU 2 ; G/S is three, and wram still has 3 roamers, Crystal only has 2. Edit this to use the 3rd
 
 ; treemon sets
 ; TreeMons indexes (see data/wild/treemons.asm)
@@ -185,7 +236,7 @@ DEF NUM_ROAMMON_MAPS EQU 16 ; RoamMaps table size (see data/wild/roammon_maps.as
 	const TREEMON_SET_KANTO
 	const TREEMON_SET_LAKE
 	const TREEMON_SET_FOREST
-	const TREEMON_SET_ROCK
+;	const TREEMON_SET_ROCK
 DEF NUM_TREEMON_SETS EQU const_value
 
 ; treemon scores
@@ -193,6 +244,12 @@ DEF NUM_TREEMON_SETS EQU const_value
 	const TREEMON_SCORE_BAD  ; 0
 	const TREEMON_SCORE_GOOD ; 1
 	const TREEMON_SCORE_RARE ; 2
+
+; rock smash groups, for Nayru's pokedex
+; const TREEMON_SET_ROCK is originally within NUM_TREEMON_SETS
+	const_def
+	const TREEMON_SET_ROCK
+DEF NUM_ROCKSMASH_SETS EQU const_value
 
 ; ChangeHappiness arguments (see data/events/happiness_changes.asm)
 	const_def 1

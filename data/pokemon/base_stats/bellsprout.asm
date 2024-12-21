@@ -1,6 +1,6 @@
-	db BELLSPROUT ; 069
+	db 0 ; species ID placeholder
 
-	db  50,  75,  35,  40,  70,  30
+	db  50,  70,  55,  30,  55,  45
 	;   hp  atk  def  spd  sat  sdf
 
 	db GRASS, POISON ; type

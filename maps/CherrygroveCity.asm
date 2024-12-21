@@ -120,7 +120,7 @@ CherrygroveRivalSceneNorth:
 	winlosstext RivalCherrygroveWinText, RivalCherrygroveLossText
 	setlasttalked CHERRYGROVECITY_RIVAL
 	loadtrainer RIVAL1, RIVAL1_1_TOTODILE
-	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
+	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE | BATTLETYPE_FORCESHINY
 	startbattle
 	dontrestartmapmusic
 	reloadmap
