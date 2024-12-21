@@ -163,7 +163,7 @@ Moves1:
 	move EFFECT_SKY_ATTACK,        140, FLYING,       PHYSICAL,   90,  5,   0      ;SKY_ATTACK
 	move EFFECT_TRANSFORM,           0, NORMAL,       STATUS,  100, 10,     0      ;TRANSFORM
 	move EFFECT_SPEED_DOWN_HIT,     20, WATER,        SPECIAL,   100, 30,  10      ;BUBBLE
-	move EFFECT_CONFUSE_HIT,        70, NORMAL,       PHYSICAL,   100, 10,  20      ;DIZZY_PUNCH
+	move EFFECT_CONFUSE_HIT,        70, FAIRY,       PHYSICAL,   100, 10,  20      ;DIZZY_PUNCH
 	move EFFECT_SLEEP,               0, GRASS,        STATUS,  100, 15,   0      ;SPORE
 	move EFFECT_ACCURACY_DOWN,       0, NORMAL,       STATUS,  70, 20,   0      ;FLASH
 	move EFFECT_PSYWAVE,             1, PSYCHIC_TYPE, SPECIAL,   80, 15,   0      ;PSYWAVE
@@ -172,7 +172,7 @@ Moves1:
 	move EFFECT_NORMAL_HIT,         90, WATER,        PHYSICAL,   85, 10,   0      ;CRABHAMMER
 	move EFFECT_SELFDESTRUCT,      250, NORMAL,       PHYSICAL,  100,  5,   0      ;EXPLOSION
 	move EFFECT_MULTI_HIT,          18, NORMAL,       PHYSICAL,   80, 15,   0      ;FURY_SWIPES
-	move EFFECT_DOUBLE_HIT,         50, GROUND,       PHYSICAL,  100, 10,   0      ;BONEMERANG
+	move EFFECT_DOUBLE_HIT,         50, GHOST ,       PHYSICAL,  100, 10,   0      ;BONEMERANG
 	move EFFECT_HEAL,                0, PSYCHIC_TYPE, STATUS,  100, 10,   0      ;REST
 	move EFFECT_FLINCH_HIT,         75, ROCK,         PHYSICAL,   90, 10,  30      ;ROCK_SLIDE
 	move EFFECT_FLINCH_HIT,         80, NORMAL,       PHYSICAL,   90, 15,  10      ;HYPER_FANG
@@ -217,7 +217,7 @@ Moves1:
 	move EFFECT_PROTECT,             0, FIGHTING,     STATUS,    100,  5,   0      ;DETECT
 	move EFFECT_MULTI_HIT,          25, GROUND,       PHYSICAL,   80, 10,   0      ;BONE_RUSH
 	move EFFECT_LOCK_ON,             0, NORMAL,       STATUS,  100,  5,     0      ;LOCK_ON
-	move EFFECT_RAMPAGE,            90, DRAGON,       PHYSICAL,  100, 15,   0      ;OUTRAGE
+	move EFFECT_RAMPAGE,            100, DRAGON,       PHYSICAL,  100, 15,   0      ;OUTRAGE
 	move EFFECT_SANDSTORM,           0, ROCK,         STATUS,  100, 10,     0      ;SANDSTORM
 	move EFFECT_LEECH_HIT,          75, GRASS,        SPECIAL,  100,  5,    0      ;GIGA_DRAIN
 	move EFFECT_ENDURE,              0, NORMAL,       STATUS,  100, 10,     0      ;ENDURE
@@ -249,13 +249,13 @@ Moves1:
 	move EFFECT_RAPID_SPIN,         20, NORMAL,       PHYSICAL,  100, 40,   0      ;RAPID_SPIN
 	move EFFECT_EVASION_DOWN,        0, NORMAL,       STATUS, 100, 20,      0      ;SWEET_SCENT
 	move EFFECT_DEFENSE_DOWN_HIT,  100, STEEL,        PHYSICAL,   75, 15,  30      ;IRON_TAIL
-	move EFFECT_ATTACK_UP_HIT,      50, STEEL,        PHYSICAL,  100, 35,  10      ;METAL_CLAW
+	move EFFECT_ATTACK_UP_HIT,      55, STEEL,        PHYSICAL,  100, 35,  10      ;METAL_CLAW
 	move EFFECT_ALWAYS_HIT,         70, FIGHTING,     PHYSICAL,  100, 10,   0      ;VITAL_THROW
 	move EFFECT_MORNING_SUN,         0, NORMAL,       STATUS,  100,  5,     0      ;MORNING_SUN
 	move EFFECT_SYNTHESIS,           0, GRASS,        STATUS,  100,  5,     0      ;SYNTHESIS
 	move EFFECT_MOONLIGHT,           0, NORMAL,       STATUS,  100,  5,     0      ;MOONLIGHT
 	move EFFECT_HIDDEN_POWER,        1, NORMAL,       SPECIAL,  100, 15,    0      ;HIDDEN_POWER
-	move EFFECT_NORMAL_HIT,        100, FIGHTING,     PHYSICAL,   80,  5,   0      ;CROSS_CHOP
+	move EFFECT_NORMAL_HIT,        100, FIGHTING,     PHYSICAL,  85,  5,   0      ;CROSS_CHOP
 	move EFFECT_TWISTER,            40, DRAGON,       SPECIAL,  100, 20,   20      ;TWISTER
 	move EFFECT_RAIN_DANCE,          0, WATER,        STATUS,   90,  5,     0      ;RAIN_DANCE
 	move EFFECT_SUNNY_DAY,           0, FIRE,         STATUS,   90,  5,     0      ;SUNNY_DAY
