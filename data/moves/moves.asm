@@ -48,7 +48,7 @@ Moves1:
 	move EFFECT_ACCURACY_DOWN_HIT,  40, GROUND,       SPECIAL,  100, 15,     0      ;SAND_ATTACK
 	move EFFECT_FLINCH_HIT,         70, NORMAL,       PHYSICAL,  100, 15,  30      ;HEADBUTT
 	move EFFECT_NORMAL_HIT,         65, NORMAL,       PHYSICAL,  100, 25,   0      ;HORN_ATTACK
-	move EFFECT_MULTI_HIT,          15, NORMAL,       PHYSICAL,   85, 20,   0      ;FURY_ATTACK
+	move EFFECT_MULTI_HIT,          25, DARK,         PHYSICAL,   100, 20,   0      ;FURY_ATTACK
 	move EFFECT_OHKO,                1, NORMAL,       PHYSICAL,   30,  5,   0      ;HORN_DRILL
 	move EFFECT_NORMAL_HIT,         35, NORMAL,       PHYSICAL,   95, 35,   0      ;TACKLE
 	move EFFECT_PARALYZE_HIT,       85, NORMAL,       PHYSICAL,  100, 15,  30      ;BODY_SLAM
