@@ -1260,20 +1260,20 @@ PlaceMoveData:
 	call PlaceString
 	ld a, [wCurSpecies]
 	ld b, a
-	farcall GetMoveCategoryName
+    farcall GetMoveCategoryName
 	hlcoord 1, 11
 	ld de, wStringBuffer1
 	call PlaceString
 	ld a, [wCurSpecies]
-	dec a
+	ld b, a
 	hlcoord 1, 12
 	ld [hl], "/"
 	inc hl
-	ld hl, Moves + MOVE_POWER
-	ld bc, MOVE_LENGTH
-	call AddNTimes
-	ld a, BANK(Moves)
-	call GetFarByte
+	predef PrintMoveType
+	ld a, [wCurSpecies]
+	ld l, a
+	ld a, MOVE_POWER
+	call GetMoveAttribute
 	hlcoord 16, 12
 	cp 2
 	jr c, .no_power
@@ -1282,6 +1282,7 @@ PlaceMoveData:
 	lb bc, 1, 3
 	call PrintNum
 	jr .description
+
 
 .no_power
 	ld de, String_MoveNoPower
