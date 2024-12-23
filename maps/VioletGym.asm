@@ -18,7 +18,9 @@ VioletGymFalknerScript:
 	waitbutton
 	closetext
 	winlosstext FalknerWinLossText, 0
-	loadtrainer FALKNER, FALKNER1
+	checkevent EVENT_HARD_MODE
+	iftrue .HardmodeFalkner
+	loadtrainer FALKNER, FALKNER1_NORMAL
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_FALKNER
@@ -29,6 +31,20 @@ VioletGymFalknerScript:
 	setflag ENGINE_ZEPHYRBADGE
 	readvar VAR_BADGES
 	scall VioletGymActivateRockets
+
+.HardmodeFalkner:
+	loadtrainer FALKNER, FALKNER1_HARD
+	startbattle
+	reloadmapafterbattle
+	setevent EVENT_BEAT_FALKNER
+	opentext
+	writetext ReceivedZephyrBadgeText
+	playsound SFX_GET_BADGE
+	waitsfx
+	setflag ENGINE_ZEPHYRBADGE
+	readvar VAR_BADGES
+	scall VioletGymActivateRockets
+
 .FightDone:
 	checkevent EVENT_GOT_TM31_MUD_SLAP
 	iftrue .SpeechAfterTM
@@ -106,7 +122,7 @@ VioletGymStatue:
 	iftrue .Beaten
 	jumpstd GymStatue1Script
 .Beaten:
-	gettrainername STRING_BUFFER_4, FALKNER, FALKNER1
+	gettrainername STRING_BUFFER_4, FALKNER, FALKNER1_NORMAL
 	jumpstd GymStatue2Script
 
 FalknerIntroText:

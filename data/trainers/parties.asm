@@ -20,6 +20,26 @@ FalknerGroup:
 	dw TACKLE, MUD_SLAP, GUST, NO_MOVE
 	db -1 ; end
 
+	next_list_item ; FALKNER (2)
+	db "FALKNER@", TRAINERTYPE_MOVES
+	db 7
+	dw PIDGEY
+	dw TACKLE, MUD_SLAP, NO_MOVE, NO_MOVE
+	db 9
+	dw PIDGEOTTO
+	dw TACKLE, MUD_SLAP, GUST, NO_MOVE
+	db -1 ; end
+
+	next_list_item ; FALKNER (3)
+	db "FALKNER@", TRAINERTYPE_MOVES
+	db 7
+	dw PIDGEY
+	dw TACKLE, MUD_SLAP, NO_MOVE, NO_MOVE
+	db 9
+	dw PIDGEOTTO
+	dw TACKLE, MUD_SLAP, GUST, NO_MOVE
+	db -1 ; end
+
 	end_list_items
 
 WhitneyGroup:
@@ -4732,6 +4752,26 @@ SageGroup:
 	dw VAPOREON
 	db -1 ; end
 
+	next_list_item ; SAGE (13)
+	db "LI@", TRAINERTYPE_NORMAL
+	db 7
+	dw BELLSPROUT
+	db 7
+	dw BELLSPROUT
+	db 10
+	dw HOOTHOOT
+	db -1 ; end
+
+	next_list_item ; SAGE (14)
+	db "LI@", TRAINERTYPE_NORMAL
+	db 7
+	dw BELLSPROUT
+	db 7
+	dw BELLSPROUT
+	db 10
+	dw HOOTHOOT
+	db -1 ; end
+
 	end_list_items
 
 MediumGroup:
@@ -5262,6 +5302,48 @@ GruntFGroup:
 MysticalmanGroup:
 	next_list_item ; MYSTICALMAN (1)
 	db "EUSINE@", TRAINERTYPE_MOVES
+	db 23
+	dw DROWZEE
+	dw DREAM_EATER, HYPNOSIS, DISABLE, CONFUSION
+	db 23
+	dw HAUNTER
+	dw LICK, HYPNOSIS, MEAN_LOOK, CURSE
+	db 25
+	dw ELECTRODE
+	dw SCREECH, SONICBOOM, THUNDER, ROLLOUT
+	db -1 ; end
+
+	end_list_items
+
+Elderligroup:
+	next_list_item ; ELDERLI (1)
+	db "ELDER LI@", TRAINERTYPE_MOVES
+	db 23
+	dw DROWZEE
+	dw DREAM_EATER, HYPNOSIS, DISABLE, CONFUSION
+	db 23
+	dw HAUNTER
+	dw LICK, HYPNOSIS, MEAN_LOOK, CURSE
+	db 25
+	dw ELECTRODE
+	dw SCREECH, SONICBOOM, THUNDER, ROLLOUT
+	db -1 ; end
+
+	next_list_item ; ELDERLI (2)
+	db "ELDER LI@", TRAINERTYPE_MOVES
+	db 23
+	dw DROWZEE
+	dw DREAM_EATER, HYPNOSIS, DISABLE, CONFUSION
+	db 23
+	dw HAUNTER
+	dw LICK, HYPNOSIS, MEAN_LOOK, CURSE
+	db 25
+	dw ELECTRODE
+	dw SCREECH, SONICBOOM, THUNDER, ROLLOUT
+	db -1 ; end
+
+	next_list_item ; ELDERLI (3)
+	db "ELDER LI@", TRAINERTYPE_MOVES
 	db 23
 	dw DROWZEE
 	dw DREAM_EATER, HYPNOSIS, DISABLE, CONFUSION

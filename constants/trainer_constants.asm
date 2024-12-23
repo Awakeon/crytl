@@ -29,7 +29,9 @@ DEF NUM_NONTRAINER_PHONECONTACTS EQU const_value - 1
 
 DEF KRIS EQU __trainer_class__
 	trainerclass FALKNER ; 1
-	const FALKNER1
+	const FALKNER1_NORMAL
+	const FALKNER1_HARD
+	const FALKNER1_KAIZO
 
 	trainerclass WHITNEY ; 2
 	const WHITNEY1
@@ -702,5 +704,10 @@ DEF KRIS EQU __trainer_class__
 
 	trainerclass MYSTICALMAN ; 43
 	const EUSINE
+
+   trainerclass ELDERLI ; 44
+   const ELDERLI_NORMAL
+   const ELDERLI_HARD
+   const ELDERLI_KAIZO
 
 DEF NUM_TRAINER_CLASSES EQU __trainer_class__ - 1
