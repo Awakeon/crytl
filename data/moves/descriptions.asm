@@ -258,6 +258,7 @@ MoveDescriptions1:
 	dw BeatUpDescription
 	dw AirSlashDescription
 	dw MoonBladeDescription
+	dw CrosspoisonDescription
 .IndirectEnd::
 
 InvalidMoveDescription:
@@ -1272,5 +1273,9 @@ AirSlashDescription:
 	next "blades of wind.@"
 
 MoonBladeDescription:
-	db   "Slashes the targt"
-	next "with moon light.@"
+	db   "Move that becomes"
+	next "stronger in Sun.@"
+
+CrosspoisonDescription:
+	db   "May Poison the foe"
+	next "high crit ratio.@"

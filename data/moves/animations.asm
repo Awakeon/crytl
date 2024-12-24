@@ -281,6 +281,7 @@ BattleAnimations::
 	dw BattleAnim_BeatUp
 	dw BattleAnim_AirSlash
 	dw BattleAnim_Moonblade
+	dw BattleAnim_Crosspoison
 	assert_table_length NUM_ATTACKS + 1
 	dw BattleAnim_SweetScent2
 
@@ -4832,3 +4833,19 @@ BattleAnim_Moonblade:
 	anim_obj BATTLE_ANIM_OBJ_CUT_LONG_DOWN_LEFT, 152, 40, $0
 	anim_wait 32
 	anim_ret
+
+BattleAnim_Crosspoison:
+	anim_1gfx BATTLE_ANIM_GFX_CUT
+	anim_if_param_equal $1, .alternate
+	anim_sound 0, 1, SFX_SCRATCH
+	anim_obj BATTLE_ANIM_OBJ_CUT_DOWN_LEFT, 144, 48, $0
+	anim_sound 0, 1, SFX_POISON
+	anim_wait 32
+	anim_ret
+
+.alternate:
+	anim_sound 0, 1, SFX_SCRATCH
+	anim_obj BATTLE_ANIM_OBJ_CUT_DOWN_RIGHT, 120, 48, $0
+	anim_sound 0, 1, SFX_POISON
+	anim_wait 32
+	anim_re

@@ -1782,6 +1782,8 @@ BattleCommand_CheckHit:
 	call GetBattleVar
 	cp EFFECT_THUNDER
 	ret nz
+	cp EFFECT_HURRICANE
+	ret nz
 
 	ld a, [wBattleWeather]
 	cp WEATHER_RAIN

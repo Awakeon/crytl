@@ -276,5 +276,6 @@ Moves1:
 	move EFFECT_TRAP_TARGET,       110, FIRE,         SPECIAL,  75, 10, 0          ;MAGMASTORM
 	move EFFECT_HURRICANE,         110, FLYING,       SPECIAL,  75, 10, 0          ;HURRICANE
 	move EFFECT_DOUBLE_HIT         50, STEEL,         PHYSICAL, 100, 10, 0         ;DOUBLEHEXHIT
-	move EFFECT_DOUBLE_HIT         50, STEEL,         PHYSICAL, 100, 10, 0         ;DOUBLEHEXHIT
+	move EFFECT_POISON_HIT         80, POISON,        PHYSICAL, 100, 10, 30        ;POISON_JAB
+	move EFFECT_PARALYZE_HIT      100, ELECTRIC,       PHYSICAL, 100, 10, 0        ;SUPERCELLRAM
 .IndirectEnd::

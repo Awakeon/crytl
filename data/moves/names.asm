@@ -253,4 +253,5 @@ MoveNames::
 	li "BEAT UP"
 	li "AIR SLASH"
 	li "MOONBLADE"
+	li "CROSSPOISON"
 	assert_list_length NUM_ATTACKS
