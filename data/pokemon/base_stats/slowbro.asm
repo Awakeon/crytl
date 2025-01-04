@@ -1,6 +1,6 @@
 	db 0 ; species ID placeholder
 
-	db  95,  75, 110,  30, 100,  80
+	db  95,  100, 110,  30, 75,  80
 	;   hp  atk  def  spd  sat  sdf
 
 	db WATER, PSYCHIC_TYPE ; type

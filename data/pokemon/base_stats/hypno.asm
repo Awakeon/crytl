@@ -1,6 +1,6 @@
 	db 0 ; species ID placeholder
 
-	db  85,  73,  70,  67,  73, 115
+	db  85,  87,  70,  57,  87, 115
 	;   hp  atk  def  spd  sat  sdf
 
 	db PSYCHIC_TYPE, PSYCHIC_TYPE ; type

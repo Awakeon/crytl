@@ -1,9 +1,9 @@
 	db 0 ; species ID placeholder
 
-	db  45,  63,  37,  95,  65,  55
+	db  45,  73,  37,  78,  44,  55
 	;   hp  atk  def  spd  sat  sdf
 
-	db ELECTRIC, ELECTRIC ; type
+	db ELECTRIC, FIGHTING ; type
 	db 45 ; catch rate
 	db 106 ; base exp
 	db NO_ITEM, NO_ITEM ; items
